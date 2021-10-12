@@ -1,0 +1,38 @@
+on rightclick:
+	if player is holding diamond named "&3Sad Rank":
+		set {rank::%player's uuid%} to "Sad"
+		remove diamond named "&3Sad Rank" from player
+		make console execute command "lp user %player% parent set sad"
+	if player is holding paper named "&7$5 Note":
+		remove 1 paper named "&7$5 Note" from player
+		add 5 to {bal::%player's uuid%}
+	if player is holding paper named "&7$25 Note":
+		remove 1 paper named "&7$25 Note" from player
+		add 25 to {bal::%player's uuid%}
+	if player is holding paper named "&7$250 Note":
+		remove 1 paper named "&7$250 Note" from player
+		add 250 to {bal::%player's uuid%}
+	if player is holding paper named "&6+2 Level":
+		remove paper named "&6+2 Level" from player
+		add 2 to {level::%player's uuid%}
+	if player is holding paper named "&6+5 Level":
+		remove paper named "&6+5 Level" from player
+		add 5 to {level::%player's uuid%}
+	if player is holding paper named "&6+8 Level":
+		remove paper named "&6+8 Level" from player
+		add 8 to {level::%player's uuid%}
+	if player is holding paper named "&6+10 Level":
+		remove paper named "&6+10 Level" from player
+		add 10 to {level::%player's uuid%}
+	if player is holding paper named "&6+2000 Cash!":
+		remove paper named "&6+2000 Cash!" from player
+		add 2000 to {bal::%player's uuid%}
+	if player is holding paper named "&6+15000 Cash	":
+		remove paper named "&6+15000 Cash!" from player
+		add 15000 to {bal::%player's uuid%}
+	if player is holding paper named "&6+10000 Cash!":
+		remove paper named "&6+10000 Cash!" from player
+		add 10000 to {bal::%player's uuid%}
+	if player is holding paper named "&6+5000 Cash!":
+		remove paper named "&6+5000 Cash!" from player
+		add 5000 to {bal::%player's uuid%}
