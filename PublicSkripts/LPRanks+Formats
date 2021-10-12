@@ -1,0 +1,112 @@
+command /setrank [<offline player>] <text>:
+	permission: op
+	trigger:
+		set {_h} to arg-1
+		set {_h} to uuid of {_h}
+		if arg-2 is "Vegetarian":
+			set {rank::%{_h}%} to "Vegetarian"
+			make console execute command "lp user %arg-1% parent set %arg-2%"
+			send "&6[Mowing] &3%arg-1%'s Rank has been set to %arg-2%"
+		if arg-2 is "mod":
+			set {rank::%{_h}%} to "Mod"
+			make console execute command "lp user %arg-1% parent set %arg-2%"
+			send "&6[Mowing] &3%arg-1%'s Rank has been set to %arg-2%"
+		if arg-2 is "member":
+			set {rank::%{_h}%} to "Member"
+			make console execute command "lp user %arg-1% parent set %arg-2%"
+			send "&6[Mowing] &3%arg-1%'s Rank has been set to %arg-2%"
+		if arg-2 is "admin":
+			set {rank::%{_h}%} to "Admin"
+			make console execute command "lp user %arg-1% parent set %arg-2%"
+			send "&6[Mowing] &3%arg-1%'s Rank has been set to %arg-2%"
+		if arg-2 is "builder":
+			set {rank::%{_h}%} to "Builder"
+			make console execute command "lp user %arg-1% parent set %arg-2%"
+			send "&6[Mowing] &3%arg-1%'s Rank has been set to %arg-2%"
+		if arg-2 is "Owner":
+			set {rank::%{_h}%} to "Owner"
+			make console execute command "lp user %arg-1% parent set %arg-2%"
+			send "&6[Mowing] &3%arg-1%'s Rank has been set to %arg-2%"
+		if arg-2 is "Veteran":
+			set {rank::%{_h}%} to "Veteran"
+			make console execute command "lp user %arg-1% parent set %arg-2%"
+			send "&6[Mowing] &3%arg-1%'s Rank has been set to %arg-2%"
+		if arg-2 is "sad":
+			set {rank::%{_h}%} to "Sad"
+			make console execute command "lp user %arg-1% parent set %arg-2%"
+			send "&6[Mowing] &3%arg-1%'s Rank has been set to %arg-2%"
+		if arg-2 is "LawnMower":
+			set {rank::%{_h}%} to "LawnMower"
+			make console execute command "lp user %arg-1% parent set %arg-2%"
+			send "&6[Mowing] &3%arg-1%'s Rank has been set to %arg-2%"
+		if arg-2 is "GodMower":
+			set {rank::%{_h}%} to "LawnMower"
+			make console execute command "lp user %arg-1% parent set %arg-2%"
+			send "&6[Mowing] &3%arg-1%'s Rank has been set to %arg-2%"
+
+# Chat Format
+
+every 10 second:
+	loop all players:
+		set loop-player's tablist header to "&cMowing Simulator!"
+		set loop-player's tablist footer to  "&cMowSim.Minehut.GG"
+		set loop-player's tablist name to "&2%{rank::%loop-player's uuid%}% &7| &3%loop-player% &7| &2%{level::%loop-player's uuid%}%"
+		if {rank::%loop-player's uuid%} is "Owner":
+			set loop-player's tablist name to "&4%{rank::%loop-player's uuid%}% &6| &2%loop-player% &6| &3%{level::%loop-player's uuid%}%"
+		if {rank::%loop-player's uuid%} is "Sad":	
+			set loop-player's tablist name to "&3%{rank::%loop-player's uuid%}% &6| &5%loop-player% &6| &2%{level::%loop-player's uuid%}%"
+		if {rank::%loop-player's uuid%} is "Builder":	
+			set loop-player's tablist name to "&6%{rank::%loop-player's uuid%}% &6| &5%loop-player% &6| &2%{level::%loop-player's uuid%}%"
+
+on join:
+	set player's tablist header to "&cMowing Simulator!"
+	set player's tablist footer to  "&cMowSim.Minehut.GG"
+	if {rank::%player's uuid%} is "Owner":
+		set player's tablist name to "&4%{rank::%player's uuid%}% &6| &2%player% &6| &3%{level::%player's uuid%}%"
+		stop
+	set player's tablist name to "&2%{rank::%player's uuid%}% &7| &3%player% &7| &2%{level::%player's uuid%}%"
+	if {rank::%player's uuid%} is not set:
+		set {rank::%player's uuid%} to "Member"
+	loop all players:
+		set loop-player's tablist header to "&cMowing Simulator!"
+		set loop-player's tablist footer to  "&cMowSim.Minehut.GG"
+		set loop-player's tablist name to "&2%{rank::%loop-player's uuid%}% &7| &3%loop-player% &7| &2%{level::%loop-player's uuid%}%"
+		if {rank::%loop-player's uuid%} is "Owner":
+			set loop-player's tablist name to "&4%{rank::%loop-player's uuid%}% &6| &2%loop-player% &6| &3%{level::%loop-player's uuid%}%"
+		if {rank::%loop-player's uuid%} is "Sad":	
+			set loop-player's tablist name to "&3%{rank::%loop-player's uuid%}% &6| &5%loop-player% &6| &2%{level::%loop-player's uuid%}%"
+		if {rank::%loop-player's uuid%} is "Builder":	
+			set loop-player's tablist name to "&6%{rank::%loop-player's uuid%}% &6| &5%loop-player% &6| &2%{level::%loop-player's uuid%}%"
+on chat:
+	cancel event
+	set {_sent} to false
+	set {_p} to player's display name
+	set {_l} to {level::%player's uuid%}
+	set {_m} to message
+	if {_m} is "e":
+		send ";(" to player
+		stop
+	if {_m} is "w":
+		set {_m} to "Welcome, Welcome! We are a new server, Check us out before you leave!"
+	if {rank::%player's uuid%} is "Builder":
+		loop all players:
+			send "&6%{rank::%player's uuid%}% &6| &5%{_p}% &6| &2%{_l}% &6| &f%{_m}%" to loop-player
+			set {_sent} to true
+	if {rank::%player's uuid%} is "Owner":
+		loop all players:
+			send "&4%{rank::%player's uuid%}% &6| &3%{_p}% &6| &3%{_l}% &6| &c%{_m}%" to loop-player
+			set {_sent} to true
+	if {rank::%player's uuid%} is "sad":
+		loop all players:
+			send "&3%{rank::%player's uuid%}% &6| &5%{_p}% &6| &2%{_l}% | &f%{_m}%" to loop-player
+			set {_sent} to true
+	if {rank::%player's uuid%} is "Vegetarian":
+		loop all players:
+			send "&3%{rank::%player's uuid%}% &6| &5&l%{_p}% &6| &3%{_l}% &6| &f%{_m}%" to loop-player
+	if {rank::%player's uuid%} is "Member":
+		loop all players:
+			send "&2%{rank::%player's uuid%}% &7| &3%{_p}% &7| &2%{_l}% | &7%{_m}%" to loop-player
+	else:
+		loop all players:
+			if {_sent} is false:
+				send "&2%{rank::%player's uuid%}% &7| &3%{_p}% &7| &2%{_l}% | &f%{_m}%" to loop-player
