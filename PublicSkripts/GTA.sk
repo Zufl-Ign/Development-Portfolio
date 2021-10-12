@@ -1,0 +1,385 @@
+#	###		#####	####### |||   GTA SKRIPT   ||| #######	 #####		###		#
+
+
+
+
+
+#	### Guns ###	#
+
+
+
+# Pistol #
+
+on left-click with wooden hoe:
+	if player has iron nugget named "&7Pistol Ammo":
+		if {sht::%player's uuid%} is false:
+			if player is holding wooden hoe named "&7Pistol" with lore "Pistol [T1]" and "5 Damage":
+				set {_hit} to false
+				if {pistolr::%player's uuid%} = 16:
+					send action bar "&7Reloading" to player
+					wait 1 second
+					set {pistolr::%player's uuid%} to 0
+				else:
+					if {_hit} is false:
+						set {_r} to 16 - {pistolr::%player's uuid%}
+						send action bar "%{_r}%" to player
+						set {_r} to {pistolr::%player's uuid%} - 16
+						set name of {_h} to "&7Pistol %{_r}%"
+						set {_p} to player
+						set {_l} to location of player
+						set {_v} to vector from yaw player's yaw and pitch player's pitch
+						add 1.4 to y-coord of {_l}
+						remove 1 iron nugget named "&7Pistol Ammo" from player
+						set {sht::%player's uuid%} to true
+						loop 40 times:
+							set standard length of {_v} to loop-value / 2
+							set {_bullet} to {_l} ~ {_v}
+							play 10 of crit at {_bullet} offset by vector(0.1, 0.1, 0.1) with extra 0
+							loop all players in radius 1.5 of {_bullet}:
+								if loop-player is {_p}:
+									wait 1 ticks
+								else:
+									damage loop-player by 1 hearts
+							loop all blocks in radius 1 of {_bullet}:
+								if loop-block is air:
+									set {_p} to {_p}
+								else:
+									set {_hit} to true
+					wait 10 ticks
+					set {sht::%player's uuid%} to false
+					add 1 to {pistolr::%player's uuid%}
+
+# Assault Rifle #
+
+on left-click with iron hoe:
+	if player has iron nugget named "&7Assault Rifle Ammo":
+		if {sht::%player's uuid%} is false:
+			if player is holding iron hoe named "&7Assault Rifle" with lore "Ar [T1]" and "2.5 Damage":
+				set {_hit} to false
+				if {arr::%player's uuid%} = 48:
+					send action bar "&7Reloading" to player
+					wait 3 second
+					set {arr::%player's uuid%} to 0
+				else:
+					if {_hit} is false:
+						set {_r} to 48 - {arr::%player's uuid%}
+						send action bar "%{_r}%" to player
+						set {_p} to player
+						set {_l} to location of player
+						set {_v} to vector from yaw player's yaw and pitch player's pitch
+						add 1.4 to y-coord of {_l}
+						remove 1 iron nugget named "&7Assault Rifle Ammo" from player
+						set {sht::%player's uuid%} to true
+						loop 100 times:
+							set standard length of {_v} to loop-value / 2
+							set {_bullet} to {_l} ~ {_v}
+							play 10 of crit at {_bullet} offset by vector(0.1, 0.1, 0.1) with extra 0
+							loop all players in radius 1.5 of {_bullet}:
+								if loop-player is {_p}:
+									wait 1 ticks
+								else:
+									damage loop-player by 0.5
+							loop all blocks in radius 1 of {_bullet}:
+								if loop-block is air:
+									set {_p} to {_p}
+								else:
+									set {_hit} to true
+					wait 4 ticks
+					set {sht::%player's uuid%} to false
+					add 1 to {arr::%player's uuid%}
+
+# Submachine Gun #
+	
+on left-click with iron hoe:
+	if player has iron nugget named "&7SMG Ammo":
+		if {sht::%player's uuid%} is false:
+			if player is holding iron hoe named "&7SMG" with lore "SMG [T1]" and "2 Damage":
+				set {_hit} to false
+				if {smgr::%player's uuid%} = 90:
+					send action bar "&7Reloading" to player
+					wait 2 second
+					set {smgr::%player's uuid%} to 0
+				else:
+					if {_hit} is false:
+						set {_r} to 90 - {smgr::%player's uuid%}
+						send action bar "%{_r}%" to player
+						set {_p} to player
+						set {_l} to location of player
+						set {_v} to vector from yaw player's yaw and pitch player's pitch
+						add 1.4 to y-coord of {_l}
+						remove 1 iron nugget named "&7SMG Ammo" from player
+						set {sht::%player's uuid%} to true
+						loop 20 times:
+							set standard length of {_v} to loop-value / 2
+							set {_bullet} to {_l} ~ {_v}
+							play 10 of crit at {_bullet} offset by vector(0.4, 0.4, 0.4) with extra 0
+							loop all players in radius 1.5 of {_bullet}:
+								if loop-player is {_p}:
+									wait 1 ticks
+								else:
+									damage loop-player by 0.4 hearts
+							loop all blocks in radius 1 of {_bullet}:
+								if loop-block is air:
+									set {_p} to {_p}
+								else:
+									set {_hit} to true
+					wait 2 ticks
+					set {sht::%player's uuid%} to false
+					add 1 to {smgr::%player's uuid%}
+
+# Sniper #
+
+on left-click with diamond hoe:
+	if player has gold nugget named "&7Sniper Rifle Ammo":
+		if {sht::%player's uuid%} is false:
+			if player is holding diamond hoe named "&7Sniper Rifle" with lore "Sniper [T1]" and "50 Damage":
+				if {snpr::%player's uuid%} = 3:
+					send action bar "&7Reloading" to player
+					wait 7 second
+					set {snpr::%player's uuid%} to 0
+				else:
+					set {_r} to 3 - {snpr::%player's uuid%}
+					send action bar "%{_r}%" to player
+					set {_p} to player
+					set {_l} to location of player
+					set {_v} to vector from yaw player's yaw and pitch player's pitch
+					add 1.4 to y-coord of {_l}
+					remove 1 gold nugget named "&7Sniper Rifle Ammo" from player
+					set {sht::%player's uuid%} to true
+					loop 500 times:
+						set standard length of {_v} to loop-value / 2
+						set {_bullet} to {_l} ~ {_v}
+						play 10 of crit at {_bullet} offset by vector(0, 0, 0) with extra 0
+						loop all players in radius 1.5 of {_bullet}:
+							if loop-player is {_p}:
+								wait 1 ticks
+							else:
+								damage loop-player by 0.5
+					wait 20 ticks
+					set {sht::%player's uuid%} to false
+					add 1 to {snpr::%player's uuid%}
+
+
+	### Grenades ###
+
+# Rocket Luancher #
+
+on left-click with iron horse armor:
+	if player has gold nugget named "&7Rocket Luancher Ammo":
+		if {sht::%player's uuid%} is false:
+			if player is holding iron horse armor named "&7Rocket Luancher" with lore "Rocket Luancher [T1]" and "100 Damage":
+				set {_hit} to false
+				if {rklr::%player's uuid%} = 1:
+					send action bar "&7Reloading" to player
+					wait 3 second
+					set {rklr::%player's uuid%} to 0
+				else:
+					set {_r} to 1 - {rklr::%player's uuid%}
+					send action bar "%{_r}%" to player
+					set {_p} to player
+					set {_l} to location of player
+					set {_v} to vector from yaw player's yaw and pitch player's pitch
+					add 1.4 to y-coord of {_l}
+					remove 1 gold nugget named "&7Rocket Luancher Ammo" from player
+					set {sht::%player's uuid%} to true
+					loop 200 times:
+						if {_hit} is false:
+							set standard length of {_v} to loop-value / 2
+							set {_bullet} to {_l} ~ {_v}
+							play 10 of smoke at {_bullet} offset by vector(0, 0, 0) with extra 0
+							loop all players in radius 1.5 of {_bullet}:
+								if loop-player is {_p}:
+									wait 1 ticks
+								else:
+									damage loop-player by 0.5
+							loop all blocks in radius 1 of {_bullet}:
+								if loop-block is air:
+									set {_p} to {_p}
+								else:
+									set {_hit} to true
+					play 100 of flame at {_bullet} offset by vector(0.5, 0.5, 0.5) with extra 1
+					create a safe explosion with force 2.5 at {_bullet}
+					wait 20 ticks
+					set {sht::%player's uuid%} to false
+					add 1 to {rklr::%player's uuid%}
+
+
+	### Grenades ###
+
+
+
+# ### Grenades ###	#
+
+
+
+# Grenade #
+
+on right-click:
+	if player is holding an snowball named "&7Grenade":
+		if {gren::%player's uuid%} is false:
+			set {_bounce1} to false
+			set {_hit} to false
+			set {gren::%player's uuid%} to true
+			set {_y} to player's yaw
+			set {_s} to player's pitch
+			set {_l} to location of player
+			add 1.4 to y-coord of {_l}
+			remove 1 snowball named "&7Grenade" from player
+			loop 100 times:
+				if {_bounce1} is false:
+					set {_v} to vector from yaw {_y} and pitch {_s}
+					set standard length of {_v} to loop-value / 2
+					set {_flash} to {_l} ~ {_v}
+					play 10 of smoke at {_flash} offset by vector(0.1, 0.1, 0.1) with extra 0
+					set {_s} to {_s} + 1.5
+					loop all blocks in radius 1 of {_flash}:
+						if loop-block is air:
+							set {_p} to {_p}
+						else:
+							set {_bl} to loop-blocks
+							set {_s} to -20
+							set {_l} to location of loop-block
+							set {_bounce1} to true
+							add 1 to y-coord of {_l}
+				else:
+					exit loop
+			loop 50 times:
+				if {_bounce1} is true:
+					if {_hit} is false:
+						wait 1 tick
+						set {_v} to vector from yaw {_y} and pitch {_s}
+						set standard length of {_v} to loop-value / 2
+						set {_flash} to {_l} ~ {_v}
+						play 10 of smoke at {_flash} offset by vector(0.1, 0.1, 0.1) with extra 0
+						set {_s} to {_s} + 1
+						loop all blocks in radius 1 of {_flash}:
+							if loop-block is air:
+								set {_p} to {_p}
+							else:
+								set {_hit} to true
+			create a safe explosion with force 2.5 at {_flash}
+			play 100 of flame at {_flash} offset by vector(0.5, 0.5, 0.5) with extra 1
+			set {gren::%player's uuid%} to false
+
+# Flash Bang #
+
+on right-click:
+	if player is holding an egg named "&7Flashbang":
+		if {flash::%player's uuid%} is false:
+			set {_bounce1} to false
+			set {_hit} to false
+			set {flash::%player's uuid%} to true
+			set {_y} to player's yaw
+			set {_s} to player's pitch
+			set {_l} to location of player
+			add 1.4 to y-coord of {_l}
+			remove 1 egg named "&7Flashbang" from player
+			loop 100 times:
+				if {_bounce1} is false:
+					set {_v} to vector from yaw {_y} and pitch {_s}
+					set standard length of {_v} to loop-value / 2
+					set {_flash} to {_l} ~ {_v}
+					play 10 of cloud at {_flash} offset by vector(0.1, 0.1, 0.1) with extra 0
+					set {_s} to {_s} + 1.5
+					loop all blocks in radius 1 of {_flash}:
+						if loop-block is air:
+							set {_p} to {_p}
+						else:
+							set {_bl} to loop-blocks
+							set {_s} to -20
+							set {_l} to location of loop-block
+							set {_bounce1} to true
+							add 1 to y-coord of {_l}
+				else:
+					exit loop
+			loop 50 times:
+				if {_bounce1} is true:
+					if {_hit} is false:
+						wait 1 tick
+						set {_v} to vector from yaw {_y} and pitch {_s}
+						set standard length of {_v} to loop-value / 2
+						set {_flash} to {_l} ~ {_v}
+						play 10 of cloud at {_flash} offset by vector(0.1, 0.1, 0.1) with extra 0
+						set {_s} to {_s} + 1
+						loop all blocks in radius 1 of {_flash}:
+							if loop-block is air:
+								set {_p} to {_p}
+							else:
+								set {_hit} to true
+			play 10 of flash at {_flash}
+			loop players in radius 5 of {_flash}:
+				apply potion of blindness to loop-player for 3 seconds
+				apply potion of slowness to loop-player for 3 seconds
+			set {flash::%player's uuid%} to false
+
+
+	### Aiming ###
+
+
+
+#	### Aiming ###	#
+
+
+
+on right-click:
+	if player is holding iron hoe named "&7Assault Rifle" with lore "Ar [T1]" and "2.5 Damage":
+		if {araim::%player's uuid%} is true:
+			set {araim::%player's uuid%} to false
+			remove slowness from player
+		else:
+			set {araim::%player's uuid%} to true
+			apply slowness 3 to player
+	if player is holding wooden hoe named "&7Pistol" with lore "Pistol [T1]" and "5 Damage":
+		if {psaim::%player's uuid%} is true:
+			remove slowness from player
+			set {psaim::%player's uuid%} to false
+		else:
+			apply slowness 1 to player
+			set {psaim::%player's uuid%} to true
+	if player is holding iron hoe named "&7SMG" with lore "SMG [T1]" and "2 Damage":
+		if {smgaim::%player's uuid%} is true:
+			remove slowness from player
+			set {smgaim::%player's uuid%} to false
+		else:
+			apply slowness 2 to player
+			set {smgaim::%player's uuid%} to true
+	if player is holding diamond hoe named "&7Sniper Rifle" with lore "Sniper [T1]" and "50 Damage":
+		if {spaim::%player's uuid%} is true:
+			remove slowness from player
+			set {spaim::%player's uuid%} to false
+		else:
+			apply slowness 10 to player
+			set {spaim::%player's uuid%} to true
+
+
+	### General ###
+
+
+
+#	### General ###	#
+
+on right-click:
+	if player is holding redstone dust named "&7Jetpack Fuel":
+		cancel event
+		if player is wearing chain chestplate named "&7Jetpack":
+			push player forwards at speed 2
+			remove 1 redstone named "&7Jetpack Fuel" from player
+			wait 4 seconds 
+			give player redstone dust named "&7Jetpack Fuel"
+
+on shoot:
+	if projectile is egg:
+		cancel event
+	if projectile is snowball:
+		cancel event
+
+on join:
+	set {sht::%player's uuid%} to false
+	set {pistolr::%player's uuid%} to 0
+	set {flash::%player's uuid%} to false
+	set {gren::%player's uuid%} to false
+	set {arr::%player's uuid%} to 0
+	set {smgr::%player's uuid%} to 0
+	set {snpr::%player's uuid%} to 0
+	set {rklr::%player's uuid%} to 0
+	set {jtpck::%player's uuid%} to false
