@@ -1,0 +1,185 @@
+package me.Zufl.SomeParticleShit;
+
+import java.util.ArrayList;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.Vector;
+
+public class Main extends JavaPlugin implements Listener {
+	
+	@EventHandler
+	public void onClick(InventoryClickEvent e) {
+		Player player = (Player) e.getWhoClicked();
+		if(e.getView().getTitle().contains("Smile")) {
+			if (e.getCurrentItem() != null) {
+				e.setCancelled(true);
+				Material clicked = e.getCurrentItem().getType();
+				if (clicked == Material.RED_STAINED_GLASS) {
+					smile.add(player);
+					player.closeInventory();
+					applyMenu(player);
+				}
+				if (clicked == Material.GREEN_STAINED_GLASS) {
+					smile.remove(player);
+					player.closeInventory();
+					applyMenu(player);
+				}
+			}
+		}		
+	}
+	public void applyMenu(Player player) {
+		Inventory gui = Bukkit.createInventory(null, 9, "Smile");
+		
+		ItemStack toggle;
+		ItemMeta toggleMeta;
+		if (smile.contains(player)) {
+			toggle = new ItemStack(Material.GREEN_STAINED_GLASS);
+			toggleMeta = toggle.getItemMeta();
+			toggleMeta.setDisplayName(ChatColor.RED + "Disable Smile");
+		} else {
+			toggle = new ItemStack(Material.RED_STAINED_GLASS);
+			toggleMeta = toggle.getItemMeta();
+			toggleMeta.setDisplayName(ChatColor.GREEN + "Enable Smile");
+		}
+		toggle.setItemMeta(toggleMeta);
+		
+		gui.setItem(4, toggle);
+		
+		player.openInventory(gui);
+	}
+	
+	@Override
+	public void onEnable() {
+		Bukkit.getPluginManager().registerEvents(this, this);
+		Particle.DustOptions red = new Particle.DustOptions(Color.fromRGB(255, 0, 0), 1);
+		Particle.DustOptions black = new Particle.DustOptions(Color.fromRGB(0, 0, 0), 1);
+		Particle.DustOptions white = new Particle.DustOptions(Color.fromRGB(255, 255, 255), 1);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+			public void run() {
+				for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+					if (smile.contains(player)) {
+						float yaw = player.getLocation().getYaw();
+						if (yaw > -45 && yaw < 45) {
+							Vector vleye = new Vector(0, 2.2, -1);
+							Vector vreye = new Vector(-1, 2.2, -1);
+							Location leye = player.getLocation().add(vleye);
+							Location reye = player.getLocation().add(vreye);
+							leye.getWorld().spawnParticle(Particle.REDSTONE, leye, 3, 0, 0.1, 0, black);
+							reye.getWorld().spawnParticle(Particle.REDSTONE, reye, 3, 0, 0.1, 0, black);
+							Vector vlmouth = new Vector(-0.2, 1.5, -1);
+							Vector vmmouth = new Vector(-0.5, 1.5, -1);
+							Vector vrmouth = new Vector(-0.8, 1.5, -1);
+							Location lmouth = player.getLocation().add(vlmouth);
+							Location mmouth = player.getLocation().add(vmmouth);
+							Location rmouth = player.getLocation().add(vrmouth);
+							lmouth.getWorld().spawnParticle(Particle.REDSTONE, lmouth, 3, 0.1, 0, 0, black);
+							mmouth.getWorld().spawnParticle(Particle.REDSTONE, mmouth, 3, 0.1, 0, 0, black);
+							rmouth.getWorld().spawnParticle(Particle.REDSTONE, rmouth, 3, 0.1, 0, 0, black);
+							Vector vface = new Vector(-0.5, 1.2, -1);
+							Location face = player.getLocation().add(vface);
+							face.getWorld().spawnParticle(Particle.REDSTONE, face, 50, 0.8, 0.8, 0, red);
+							Vector vhair = new Vector(-0.5, 3, -1);
+							Location hair = player.getLocation().add(vhair);
+							hair.getWorld().spawnParticle(Particle.REDSTONE, hair, 50, 1, 0.2, 0, white);
+						}
+						if (yaw < -45 && yaw > -135) {
+							Vector vleye = new Vector(-1, 2.2, 0);
+							Vector vreye = new Vector(-1, 2.2, -1);
+							Location leye = player.getLocation().add(vleye);
+							Location reye = player.getLocation().add(vreye);
+							leye.getWorld().spawnParticle(Particle.REDSTONE, leye, 3, 0, 0.1, 0, black);
+							reye.getWorld().spawnParticle(Particle.REDSTONE, reye, 3, 0, 0.1, 0, black);
+							Vector vlmouth = new Vector(-1, 1.5, -0.2);
+							Vector vmmouth = new Vector(-1, 1.5, -0.5);
+							Vector vrmouth = new Vector(-1, 1.5, -0.8);
+							Location lmouth = player.getLocation().add(vlmouth);
+							Location mmouth = player.getLocation().add(vmmouth);
+							Location rmouth = player.getLocation().add(vrmouth);
+							lmouth.getWorld().spawnParticle(Particle.REDSTONE, lmouth, 3, 0, 0, 0.1, black);
+							mmouth.getWorld().spawnParticle(Particle.REDSTONE, mmouth, 3, 0, 0, 0.1, black);
+							rmouth.getWorld().spawnParticle(Particle.REDSTONE, rmouth, 3, 0, 0, 0.1, black);
+							Vector vface = new Vector(-1, 1.2, -0.5);
+							Location face = player.getLocation().add(vface);
+							face.getWorld().spawnParticle(Particle.REDSTONE, face, 50, 0, 0.8, 0.8, red);
+							Vector vhair = new Vector(-1, 3, -0.5);
+							Location hair = player.getLocation().add(vhair);
+							hair.getWorld().spawnParticle(Particle.REDSTONE, hair, 50, 0, 0.2, 1, white);
+						}
+						if (yaw < -125 || yaw > 135) {
+							Vector vleye = new Vector(0, 2.2, 1);
+							Vector vreye = new Vector(1, 2.2, 1);
+							Location leye = player.getLocation().add(vleye);
+							Location reye = player.getLocation().add(vreye);
+							leye.getWorld().spawnParticle(Particle.REDSTONE, leye, 3, 0, 0.1, 0, black);
+							reye.getWorld().spawnParticle(Particle.REDSTONE, reye, 3, 0, 0.1, 0, black);
+							Vector vlmouth = new Vector(0.2, 1.5, 1);
+							Vector vmmouth = new Vector(0.5, 1.5, 1);
+							Vector vrmouth = new Vector(0.8, 1.5, 1);
+							Location lmouth = player.getLocation().add(vlmouth);
+							Location mmouth = player.getLocation().add(vmmouth);
+							Location rmouth = player.getLocation().add(vrmouth);
+							lmouth.getWorld().spawnParticle(Particle.REDSTONE, lmouth, 3, 0.1, 0, 0, black);
+							mmouth.getWorld().spawnParticle(Particle.REDSTONE, mmouth, 3, 0.1, 0, 0, black);
+							rmouth.getWorld().spawnParticle(Particle.REDSTONE, rmouth, 3, 0.1, 0, 0, black);
+							Vector vface = new Vector(0.5, 1.2, 1);
+							Location face = player.getLocation().add(vface);
+							face.getWorld().spawnParticle(Particle.REDSTONE, face, 50, 0.8, 0.8, 0, red);
+							Vector vhair = new Vector(0.5, 3, 1);
+							Location hair = player.getLocation().add(vhair);
+							hair.getWorld().spawnParticle(Particle.REDSTONE, hair, 50, 1, 0.2, 0, white);
+						}
+						if (yaw > 45 && yaw < 135) {
+							Vector vleye = new Vector(1, 2.2, 0);
+							Vector vreye = new Vector(1, 2.2, 1);
+							Location leye = player.getLocation().add(vleye);
+							Location reye = player.getLocation().add(vreye);
+							leye.getWorld().spawnParticle(Particle.REDSTONE, leye, 3, 0, 0.1, 0, black);
+							reye.getWorld().spawnParticle(Particle.REDSTONE, reye, 3, 0, 0.1, 0, black);
+							Vector vlmouth = new Vector(1, 1.5, 0.2);
+							Vector vmmouth = new Vector(1, 1.5, 0.5);
+							Vector vrmouth = new Vector(1, 1.5, 0.8);
+							Location lmouth = player.getLocation().add(vlmouth);
+							Location mmouth = player.getLocation().add(vmmouth);
+							Location rmouth = player.getLocation().add(vrmouth);
+							lmouth.getWorld().spawnParticle(Particle.REDSTONE, lmouth, 3, 0, 0, 0.1, black);
+							mmouth.getWorld().spawnParticle(Particle.REDSTONE, mmouth, 3, 0, 0, 0.1, black);
+							rmouth.getWorld().spawnParticle(Particle.REDSTONE, rmouth, 3, 0, 0, 0.1, black);
+							Vector vface = new Vector(1, 1.2, 0.5);
+							Location face = player.getLocation().add(vface);
+							face.getWorld().spawnParticle(Particle.REDSTONE, face, 50, 0, 0.8, 0.8, red);
+							Vector vhair = new Vector(1, 3, 0.5);
+							Location hair = player.getLocation().add(vhair);
+							hair.getWorld().spawnParticle(Particle.REDSTONE, hair, 50, 0, 0.2, 1, white);
+						}
+					}
+				}
+			}
+		}, 1L, 1L);
+	}
+	ArrayList<Player> smile = new ArrayList<>();
+
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (cmd.getName().equalsIgnoreCase("smile")) {
+			if (sender instanceof Player) {
+				Player player = (Player) sender;
+				applyMenu(player);
+			}
+		}
+	return false;
+	}
+}
