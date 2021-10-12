@@ -1,0 +1,218 @@
+command /particles:
+    trigger:
+        open chest with 3 row named "Particles" to player
+        wait 3 ticks
+        format gui slot (integers between 0 and 26) of player with black stained glass pane named " " to close
+        format gui slot 13 of player with totem of undying named "&6Helix Effect" to run:
+            close player's inventory
+            if player has permission "zp.helix":
+                make player execute command "/zphelix" with permission "zphelix"
+            else:
+                send "&2[Zufl Particles] &7| &3You Do Not Have Permission!"
+
+command /zphelix:
+    permission: zphelix
+    trigger:
+        open chest with 3 row named "Particles" to player
+        wait 3 ticks
+        format gui slot (integers between 0 and 26) of player with black stained glass pane named " " to close
+        format gui slot 13 of player with totem of undying named "&6Totem" to run:
+            if {helix::%player's uuid%} is true:
+                set {helix::%player's uuid%} to false
+                set {zpobsidianhelix::%player's uuid%} to false
+                set {zptotemhelix::%player's uuid%} to false
+                set {zpsparklehelix::%player's uuid%} to false
+                set {zpsplashhelix::%player's uuid%} to false
+                set {zpflamehelix::%player's uuid%} to false
+                send "&2[Zufl Particles] &7| &3Helix Effect Off" to player
+            else:
+                set {helix::%player's uuid%} to true
+                set {zpflamehelix::%player's uuid%} to false
+                set {zpobsidianhelix::%player's uuid%} to false
+                set {zptotemhelix::%player's uuid%} to true
+                set {zpsparklehelix::%player's uuid%} to false
+                set {zpsplashhelix::%player's uuid%} to false
+                send "&2[Zufl Particles] &7| &3Helix Effect On With Totem Particle" to player
+        format gui slot 12 of player with obsidian named "&6Obsidian" to run:
+            if {helix::%player's uuid%} is true:
+                set {helix::%player's uuid%} to false
+                set {zpflamehelix::%player's uuid%} to false
+                set {zpobsidianhelix::%player's uuid%} to false
+                set {zptotemhelix::%player's uuid%} to false
+                set {zpsparklehelix::%player's uuid%} to false
+                set {zpsplashhelix::%player's uuid%} to false
+                send "&2[Zufl Particles] &7| &3Helix Effect Off" to player
+            else:
+                set {helix::%player's uuid%} to true
+                set {zpflamehelix::%player's uuid%} to false
+                set {zpobsidianhelix::%player's uuid%} to true
+                set {zptotemhelix::%player's uuid%} to false
+                set {zpsparklehelix::%player's uuid%} to false
+                set {zpsplashhelix::%player's uuid%} to false
+                send "&2[Zufl Particles] &7| &3Helix Effect On With Obsidian Particle" to player
+        format gui slot 14 of player with flint and steel named "&6Flame" to run:
+            if {helix::%player's uuid%} is true:
+                set {helix::%player's uuid%} to false
+                set {zpobsidianhelix::%player's uuid%} to false
+                set {zptotemhelix::%player's uuid%} to false
+                set {zpflamehelix::%player's uuid%} to false
+                set {zpsparklehelix::%player's uuid%} to false
+                set {zpsplashhelix::%player's uuid%} to false
+                send "&2[Zufl Particles] &7| &3Helix Effect Off" to player
+            else:
+                set {helix::%player's uuid%} to true
+                set {zpobsidianhelix::%player's uuid%} to false
+                set {zptotemhelix::%player's uuid%} to false
+                set {zpflamehelix::%player's uuid%} to true
+                set {zpsparklehelix::%player's uuid%} to false
+                set {zpsplashhelix::%player's uuid%} to false
+                send "&2[Zufl Particles] &7| &3Helix Effect On With Flame Particle" to player
+        format gui slot 4 of player with firework named "&6Sparkle" to run:
+            if {helix::%player's uuid%} is true:
+                set {helix::%player's uuid%} to false
+                set {zpobsidianhelix::%player's uuid%} to false
+                set {zptotemhelix::%player's uuid%} to false
+                set {zpflamehelix::%player's uuid%} to false
+                set {zpsparklehelix::%player's uuid%} to false
+                set {zpsplashhelix::%player's uuid%} to false
+                send "&2[Zufl Particles] &7| &3Helix Effect Off" to player
+            else:
+                set {helix::%player's uuid%} to true
+                set {zpobsidianhelix::%player's uuid%} to false
+                set {zptotemhelix::%player's uuid%} to false
+                set {zpflamehelix::%player's uuid%} to false
+                set {zpsparklehelix::%player's uuid%} to true
+                set {zpsplashhelix::%player's uuid%} to false
+                send "&2[Zufl Particles] &7| &3Helix Effect On With Sparkle Particle" to player
+        format gui slot 22 of player with water bucket named "&6Splash" to run:
+            if {helix::%player's uuid%} is true:
+                set {helix::%player's uuid%} to false
+                set {zpobsidianhelix::%player's uuid%} to false
+                set {zptotemhelix::%player's uuid%} to false
+                set {zpflamehelix::%player's uuid%} to false
+                set {zpsparklehelix::%player's uuid%} to false
+                set {zpsplashhelix::%player's uuid%} to false
+                send "&2[Zufl Particles] &7| &3Helix Effect Off" to player
+            else:
+                set {helix::%player's uuid%} to true
+                set {zpobsidianhelix::%player's uuid%} to false
+                set {zptotemhelix::%player's uuid%} to false
+                set {zpflamehelix::%player's uuid%} to false
+                set {zpsparklehelix::%player's uuid%} to false
+                set {zpsplashhelix::%player's uuid%} to true
+                send "&2[Zufl Particles] &7| &3Helix Effect On With Sparkle Particle" to player
+
+
+
+every 2 seconds:
+    loop all players:
+        set {_zp} to {zphelix::%loop-player's uuid%}
+        if {helix::%loop-player's uuid%} is true:
+            set {_l} to location of loop-player
+            set {_c1} to 0
+            set {_y} to 90
+            add 0.2 to x-coord of {_l}
+            loop 360 times:
+                set {_yx} to y-coord of {_l}
+                set {_l} to location of loop-player
+                set y-coord of {_l} to {_yx}
+                set {_v} to vector from yaw {_y} and pitch 0
+                set standard length of {_v} to 1
+                set {_bullet} to {_l} ~ {_v}
+                if {zptotemhelix::%loop-player's uuid%} is true:
+                    play 1 of totem of undying at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpobsidianhelix::%loop-player's uuid%} is true:
+                    play 1 of falling obsidian tear at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpsplashhelix::%loop-player's uuid%} is true:
+                    play 1 of splash at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpsparklehelix::%loop-player's uuid%} is true:
+                    play 1 of firework at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpflamehelix::%loop-player's uuid%} is true:
+                    play 1 of flame at {_bullet} offset by vector(0, 0, 0) with extra 0
+                add 1 to {_y}
+                add 1 to {_c1}
+                if {_c1} > 35:
+                    wait 1 tick
+                    add 0.1 to y-coord of {_l}
+                    set {_c1} to 0
+            set {_y} to 90
+            set {_c2} to 0
+            set {_v} to vector from yaw {_y} and pitch {_p}
+            add -0.2 to x-coord of {_l}
+            loop 360 times:
+                set {_yx} to y-coord of {_l}
+                set {_l} to location of loop-player
+                set y-coord of {_l} to {_yx}
+                set {_v} to vector from yaw {_y} and pitch 0
+                set standard length of {_v} to 1
+                set {_bullet} to {_l} ~ {_v}
+                if {zptotemhelix::%loop-player's uuid%} is true:
+                    play 1 of totem of undying at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpobsidianhelix::%loop-player's uuid%} is true:
+                    play 1 of falling obsidian tear at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpsplashhelix::%loop-player's uuid%} is true:
+                    play 1 of splash at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpsparklehelix::%loop-player's uuid%} is true:
+                    play 1 of firework at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpflamehelix::%loop-player's uuid%} is true:
+                    play 1 of flame at {_bullet} offset by vector(0, 0, 0) with extra 0
+                add 1 to {_y}
+                add 1 to {_c2}
+                if {_c2} > 35:
+                    wait 1 tick
+                    add 0.1 to y-coord of {_l}
+                    set {_c2} to 0
+            set {_y} to 90
+            set {_c3} to 0
+            set {_v} to vector from yaw {_y} and pitch {_p}
+            add 0.2 to x-coord of {_l}
+            loop 360 times:
+                set {_yx} to y-coord of {_l}
+                set {_l} to location of loop-player
+                set y-coord of {_l} to {_yx}
+                set {_v} to vector from yaw {_y} and pitch 0
+                set standard length of {_v} to 1
+                set {_bullet} to {_l} ~ {_v}
+                if {zptotemhelix::%loop-player's uuid%} is true:
+                    play 1 of totem of undying at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpobsidianhelix::%loop-player's uuid%} is true:
+                    play 1 of falling obsidian tear at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpsplashhelix::%loop-player's uuid%} is true:
+                    play 1 of splash at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpsparklehelix::%loop-player's uuid%} is true:
+                    play 1 of firework at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpflamehelix::%loop-player's uuid%} is true:
+                    play 1 of flame at {_bullet} offset by vector(0, 0, 0) with extra 0
+                add 1 to {_y}
+                add 1 to {_c3}
+                if {_c3} > 35:
+                    wait 1 tick
+                    add 0.1 to y-coord of {_l}
+                    set {_c3} to 0
+            set {_y} to 90
+            set {_c4} to 0
+            set {_v} to vector from yaw {_y} and pitch {_p}
+            add -0.2 to x-coord of {_l}
+            loop 360 times:
+                set {_yx} to y-coord of {_l}
+                set {_l} to location of loop-player
+                set y-coord of {_l} to {_yx}
+                set {_v} to vector from yaw {_y} and pitch 0
+                set standard length of {_v} to 1
+                set {_bullet} to {_l} ~ {_v}
+                if {zptotemhelix::%loop-player's uuid%} is true:
+                    play 1 of totem of undying at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpobsidianhelix::%loop-player's uuid%} is true:
+                    play 1 of falling obsidian tear at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpsplashhelix::%loop-player's uuid%} is true:
+                    play 1 of splash at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpsparklehelix::%loop-player's uuid%} is true:
+                    play 1 of firework at {_bullet} offset by vector(0, 0, 0) with extra 0
+                if {zpflamehelix::%loop-player's uuid%} is true:
+                    play 1 of flame at {_bullet} offset by vector(0, 0, 0) with extra 0
+                add 1 to {_y}
+                add 1 to {_c4}
+                if {_c4} > 35:
+                    wait 1 tick
+                    add 0.1 to y-coord of {_l}
+                    set {_c4} to 0
