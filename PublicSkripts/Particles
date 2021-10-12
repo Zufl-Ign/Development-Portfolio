@@ -1,0 +1,60 @@
+command /particles:
+    trigger:
+        open chest with 3 rows named "&7Particles" to player
+        wait 3 ticks
+        format gui slot (integers between 0 and 26) of player with black stained glass pane named " " to close
+        format gui slot 10 of player with white wool named "&7Cloud" with lore "Must Be A Sad Day" and "&7You need rank &e&lLORD &7or higher" to run:
+            if player has permission "particles.cloud":
+                if {cloudp::%player's uuid%} is true:
+                    set {cloudp::%player's uuid%} to false
+                else:
+                    set {cloudp::%player's uuid%} to true
+            else:
+                set {cloudp::%player's uuid%} to false
+                send "&cYou do not have permission to do that!" to player
+        format gui slot 12 of player with flint and steel named "&7Flame" with lore "You Like The Flame?" and "&7You need rank &6&lEMPEROR &7or higher" to run:
+            if player has permission "particles.flame":
+                if {firep::%player's uuid%} is true:
+                    set {firep::%player's uuid%} to false
+                else:
+                    set {firep::%player's uuid%} to true
+            else:
+                set {firep::%player's uuid%} to false
+        format gui slot 14 of player with purple wool named "&6Galaxy" with lore "The stars.. Can you count them all?" and "&7You need rank &5&lROYAL &7or higher" to run:
+            if player has permission "particles.galaxy":
+                if {galaxyp::%player's uuid%} is true:
+                    set {galaxyp::%player's uuid%} to false
+                else:
+                    set {galaxyp::%player's uuid%} to true
+            else:
+                set {galaxyp::%player's uuid%} to false
+
+on any move:
+    if {cloudp::%player's uuid%} is true:
+        set {_p} to player
+        set {_l} to location of player
+        set {_v} to spherical vector radius 3, yaw 45, pitch 90
+        add 4 to y-coord of {_l}
+        loop 2 times:
+            set standard length of {_v} to loop-value / 2
+            set {_ptcls} to {_l} ~ {_v}
+            play 40 of cloud at {_ptcls} offset by vector(1, 0.1, 1) with extra 0
+    if {firep::%player's uuid%} is true:
+        set {_p} to player
+        set {_l} to location of player
+        set {_v} to spherical vector radius 3, yaw 45, pitch 90
+        loop 2 times:
+            set standard length of {_v} to loop-value / 2
+            set {_ptcls} to {_l} ~ {_v}
+            play 10 of flame at {_ptcls} offset by vector(0.1, 0.1, 0.1) with extra 0.1
+    if {galaxyp::%player's uuid%} is true:
+        set {_p} to player
+        set {_l} to location of player
+        set {_v} to vector from yaw player's yaw and pitch 90
+        add 1 to x-coord of {_l}
+        loop 360 times:
+            set {_v} to vector from yaw {_y} and pitch 0
+            set standard length of {_v} to loop-value / 2
+            set {_ptcls} to {_l} ~ {_v}
+            play 10 of portal at {_ptcls} offset by vector(0.1, 0.1, 0.1) with extra 0.1
+            add {_y} * 3.1415 to {_y}
