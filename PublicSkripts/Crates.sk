@@ -1,0 +1,80 @@
+on right click:
+    set {_h} to player's held item
+    if name of {_h} is "&dLegendary Crate":
+        cancel event
+        if {_h} is a tripwire hook:
+            if target block is yellow shulker box:
+                remove 1 of {_h} from player
+                set {_random} to random integer between 1 and 4
+                if {_random} is 1:
+                    send "&6[Mowing] &3You won SAD RANK!?" to player
+                    give player 1 diamond named "&3Sad Rank"
+                if {_random} is 2:
+                    send "&6[Mowing] &3Pet Redeem Key!" to player
+                    give player 1 Paper named "&6Pet Redeem Key!"
+    if name of {_h} is "&fCommon Crate":
+        cancel event
+        if {_h} is a tripwire hook:
+            if target block is white shulker box:
+                remove 1 of {_h} from player
+                set {_random} to random integer between 1 and 6
+                if {_random} is 1:
+                    send "&6[Mowing] &3You won +2 Level!" to player
+                    give player 1 paper named "&6+2 Level"
+                if {_random} is 2:
+                    send "&6[Mowing] &3You won +2000 Cash!" to player
+                    give player 1 Paper named "&6+2000 Cash!"
+                if {_random} is 3:
+                    send "&6[Mowing] &3You won Uncommon Crate Key!" to player
+                    give player 1 tripwire hook named "&2Uncommon Crate"
+                if {_random} is 4 or 5 or 6:
+                    send "&6[Mowing] &3You Got Nothing!" to player
+    if name of {_h} is "&2Uncommon Crate":
+        cancel event
+        if {_h} is a tripwire hook:
+            if target block is green shulker box:
+                remove 1 of {_h} from player
+                set {_random} to random integer between 1 and 5
+                if {_random} is 1:
+                    send "&6[Mowing] &3You won +5 Level!" to player
+                    give player 1 paper named "&6+5 Level"
+                if {_random} is 2:
+                    send "&6[Mowing] &3You won +5000 Cash!" to player
+                    give player 1 Paper named "&6+5000 Cash!"
+                if {_random} is 3:
+                    send "&6[Mowing] &3You won Rare Crate Key!" to player
+                    give player 1 tripwire hook named "&3Rare Crate"
+                if {_random} is 4 or 5:
+                    send "&6[Mowing] &3You Got Nothing!" to player
+    if name of {_h} is "&3Rare Crate":
+        cancel event
+        if {_h} is a tripwire hook:
+            if target block is gray shulker box:
+                remove 1 of {_h} from player
+                set {_random} to random integer between 1 and 4
+                if {_random} is 1:
+                    send "&6[Mowing] &3You won +8 Level!" to player
+                    give player 1 paper named "&6+8 Level"
+                if {_random} is 2:
+                    send "&6[Mowing] &3You won +10000 Cash!" to player
+                    give player 1 Paper named "&6+10000 Cash!"
+                if {_random} is 3:
+                    send "&6[Mowing] &3You won Epic Crate Key!" to player
+                    give player 1 tripwire hook named "&4Epic Crate"
+                if {_random} is 4:
+                    send "&6[Mowing] &3You Got Nothing!" to player
+    if name of {_h} is "&4Epic Crate":
+        cancel event
+        if {_h} is a tripwire hook:
+            if target block is Purple shulker box:
+                remove 1 of {_h} from player
+                set {_random} to random integer between 1 and 3
+                if {_random} is 1:
+                    send "&6[Mowing] &3You won +10 Level!" to player
+                    give player 1 paper named "&6+10 Level"
+                if {_random} is 2:
+                    send "&6[Mowing] &3You won +15000 Cash!" to player
+                    give player 1 Paper named "&6+15000 Cash!"
+                if {_random} is 3:
+                    send "&6[Mowing] &3You won Legendary Crate Key!" to player
+                    give player 1 tripwire hook named "&dLegendary Crate"
