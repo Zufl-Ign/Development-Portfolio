@@ -1,0 +1,9 @@
+			set name of sidebar of player to "&6&lMowing Simulator &7"
+			set score "&1&r&7&m-------------------------" in sidebar of player to 17
+			set score "&6Backpack: &f%{inbackpack::%player's uuid%}%/&6%{maxbackpack::%player's uuid%}%" in sidebar of player to 14
+			set score "&6Balance: &f%{bal::%player's uuid%}%" in sidebar of player to 13
+			set score "&6Xp: &f%{xp::%player's uuid%}%/%{maxxp::%player's uuid%}%" in sidebar of player to 11
+			set score "&6Level: &f%{level::%player's uuid%}%" in sidebar of player to 10
+			set score "&6Global Booster: &f%{globalbooster}%" in sidebar of player to 3
+			set score "&7&oMowSim.minehut.gg" in sidebar of player to 2
+			set score "&3&r&7&m-------------------------" in sidebar of player to 1
