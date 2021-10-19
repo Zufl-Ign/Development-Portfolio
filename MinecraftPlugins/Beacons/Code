@@ -1,0 +1,844 @@
+package me.Zufl.Beacons;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team; 
+
+public class Main extends JavaPlugin implements Listener {	
+	
+	ArrayList<Player> beacon = new ArrayList<>();
+	ArrayList<Block> mapreset = new ArrayList<>();
+	
+	public void onEnable() {
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+			public void run() {
+				for (Block mapreset : mapreset) {
+					mapreset.setType(Material.AIR);
+				}
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					player.setHealth(0);
+					player.getInventory().remove(new ItemStack(Material.BEACON));
+					player.getInventory().addItem(new ItemStack(Material.BEACON));
+				}
+				mapreset.clear();
+				beacon.clear();
+				Bukkit.broadcastMessage("§6MAP RESET!");
+				
+				
+		        Random rand = new Random();
+		        
+	        	File shopfile = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "RotateShop");
+	        	FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(shopfile);
+	        	
+		        int helm = rand.nextInt(16 - 1) + 1;
+		        if (helm < 5) {
+		        	DBconfig.set("Helmet", "LEATHER_HELMET");
+		        } 
+		        if (helm > 4 && helm < 8) {
+		        	DBconfig.set("Helmet", "CHAINMAIL_HELMET");
+		        }
+		        if (helm > 7 && helm < 11) {
+		        	DBconfig.set("Helmet", "GOLDEN_HELMET");
+		        }
+		        if (helm > 10 && helm < 13) {
+		        	DBconfig.set("Helmet", "IRON_HELMET");
+		        }
+		        if (helm > 12 && helm < 15) {
+		        	DBconfig.set("Helmet", "DIAMOND_HELMET");
+		        }
+		        if (helm == 15) {
+		        	DBconfig.set("Helmet", "NETHERITE_HELMET");
+		        }
+		        
+		        int chest = rand.nextInt(16 - 1) + 1;
+		        if (chest < 5) {
+		        	DBconfig.set("Chestplate", "LEATHER_CHESTPLATE");
+		        } 
+		        if (chest > 4 && chest < 8) {
+		        	DBconfig.set("Chestplate", "CHAINMAIL_CHESTPLATE");
+		        }
+		        if (chest > 7 && chest < 11) {
+		        	DBconfig.set("Chestplate", "GOLDEN_CHESTPLATE");
+		        }
+		        if (chest > 10 && chest < 13) {
+		        	DBconfig.set("Chestplate", "IRON_CHESTPLATE");
+		        }
+		        if (chest > 12 && chest < 15) {
+		        	DBconfig.set("Chestplate", "DIAMOND_CHESTPLATE");
+		        }
+		        if (chest == 15) {
+		        	DBconfig.set("Chestplate", "NETHERITE_CHESTPLATE");
+		        }
+		        int legg = rand.nextInt(16 - 1) + 1;
+		        if (legg < 5) {
+		        	DBconfig.set("Leggings", "LEATHER_LEGGINGS");
+		        } 
+		        if (legg > 4 && legg < 8) {
+		        	DBconfig.set("Leggings", "CHAINMAIL_LEGGINGS");
+		        }
+		        if (legg > 7 && legg < 11) {
+		        	DBconfig.set("Leggings", "GOLDEN_LEGGINGS");
+		        }
+		        if (legg > 10 && legg < 13) {
+		        	DBconfig.set("Leggings", "IRON_LEGGINGS");
+		        }
+		        if (legg > 12 && legg < 15) {
+		        	DBconfig.set("Leggings", "DIAMOND_LEGGINGS");
+		        }
+		        if (legg == 15) {
+		        	DBconfig.set("Leggings", "NETHERITE_LEGGINGS");
+		        }
+		        int boots = rand.nextInt(16 - 1) + 1;
+		        if (boots < 5) {
+		        	DBconfig.set("Boots", "LEATHER_BOOTS");
+		        } 
+		        if (boots > 4 && boots < 8) {
+		        	DBconfig.set("Boots", "CHAINMAIL_BOOTS");
+		        }
+		        if (boots > 7 && boots < 11) {
+		        	DBconfig.set("Boots", "GOLDEN_BOOTS");
+		        }
+		        if (boots > 10 && boots < 13) {
+		        	DBconfig.set("Boots", "IRON_BOOTS");
+		        }
+		        if (boots > 12 && boots < 15) {
+		        	DBconfig.set("Boots", "DIAMOND_BOOTS");
+		        }
+		        if (boots == 15) {
+		        	DBconfig.set("Boots", "NETHERITE_BOOTS");
+		        }
+		        int sword = rand.nextInt(16 - 1) + 1;
+		        if (sword < 5) {
+		        	DBconfig.set("Sword", "WOODEN_SWORD");
+		        } 
+		        if (sword > 4 && boots < 8) {
+		        	DBconfig.set("Sword", "STONE_SWORD");
+		        }
+		        if (sword > 7 && boots < 11) {
+		        	DBconfig.set("Sword", "GOLDEN_SWORD");
+		        }
+		        if (sword > 10 && boots < 13) {
+		        	DBconfig.set("Sword", "IRON_SWORD");
+		        }
+		        if (sword > 12 && boots < 15) {
+		        	DBconfig.set("Sword", "DIAMOND_SWORD");
+		        }
+		        if (sword == 15) {
+		        	DBconfig.set("Sword", "NETHERITE_SWORD");
+		        }
+		        int bow = rand.nextInt(3 - 1) + 1;
+		        if (bow == 1) {
+		        	DBconfig.set("Bow", "BOW");
+		        } 
+		        if (bow == 2) {
+		        	DBconfig.set("Bow", "CROSSBOW");
+		        }
+		     	int special = rand.nextInt(5 - 1) + 1;
+		        if (special == 1) {
+		        	DBconfig.set("Special", "FISHING_ROD");
+		        } 
+		        if (special == 2) {
+		        	DBconfig.set("Special", "TNT");
+		        }
+		       	if (special == 3) {
+		        	DBconfig.set("Special", "FLINT_AND_STEEL");
+		        }
+		      	if (special == 4) {
+		        	DBconfig.set("Special", "ELYTRA");
+		        }
+		      	try {
+					DBconfig.save(shopfile);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}, 6000L, 6000L);
+		
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+			public void run() {
+				for(Player player : Bukkit.getServer().getOnlinePlayers()) {
+					UUID id = player.getUniqueId();
+					File file = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "PlayerData" + File.separator  + id); 
+					FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(file);
+					Integer lvlint = (Integer) DBconfig.get("BeaconLevel");
+					Integer balint = (Integer) DBconfig.get("Money");
+					player.getScoreboard().getTeam("money").setSuffix("" + balint);
+					player.getScoreboard().getTeam("level").setSuffix("" + lvlint);
+					
+					if (beacon.contains(player)) {
+						DBconfig.set("Money", balint + lvlint);
+			 			try {
+							DBconfig.save(file);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}, 20L, 20L);
+		
+		if (!getDataFolder().exists()) getDataFolder().mkdir();
+		saveDefaultConfig();
+
+		Bukkit.getPluginManager().registerEvents(this, this);
+		
+		File dir = new File("plugins/BeaconsCore/PlayerData");
+		if (!dir.exists()) {
+			dir.mkdirs();	
+		}
+        File shopfile = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "RotateShop");
+        if(!shopfile.exists()){
+            try{
+                shopfile.createNewFile();
+                FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(shopfile);
+                DBconfig.set("Language", "YAML");
+                DBconfig.set("Helmet", "LEATHER_HELMET");
+                DBconfig.set("Chestplate", "LEATHER_CHESTPLATE");
+                DBconfig.set("Leggings", "LEATHER_LEGGINGS");
+                DBconfig.set("Boots", "LEATHER_BOOTS");
+                DBconfig.set("Sword", "WOODEN_SWORD");
+                DBconfig.set("Bow", "BOW");
+                DBconfig.set("Special", "FISHING_ROD");
+                DBconfig.save(shopfile);
+            }catch(Exception e){
+            }
+        }
+        File DBfile = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "ActiveBeacons");
+        if(!DBfile.exists()){
+            try{
+                DBfile.createNewFile();
+                FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(DBfile);
+                DBconfig.set("Language", "YAML");
+                DBconfig.set("BeaconCount", 0);
+                DBconfig.save(DBfile);
+            }catch(Exception e){
+            }
+        }
+	}	
+	public void buildScoreBoard(Player p) {
+		UUID id = p.getUniqueId();
+		File file = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "PlayerData" + File.separator  + id); 
+		FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(file);
+		Integer lvlint = (Integer) DBconfig.get("BeaconLevel");
+		Integer balint = (Integer) DBconfig.get("Money");
+		
+		Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
+		Objective obj = board.registerNewObjective("Glares", "glare", "Glare");
+		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+		
+		Team money = board.registerNewTeam("money");
+		money.addEntry(ChatColor.GRAY.toString());
+		money.setPrefix(ChatColor.DARK_AQUA + "Balance: ");
+		money.setSuffix("" + balint);
+		obj.getScore(ChatColor.GRAY.toString()).setScore(3);;
+		
+		Team money1 = board.registerNewTeam("level");
+		money1.addEntry(ChatColor.BLUE.toString());
+		money1.setPrefix(ChatColor.DARK_AQUA + "Level: ");
+		money1.setSuffix("" + lvlint);
+		obj.getScore(ChatColor.BLUE.toString()).setScore(4);;
+		
+		Score name = obj.getScore(ChatColor.RED + "Glares");
+		Score dash1 = obj.getScore(ChatColor.GRAY + "-------------------");
+
+		
+		Score dash2 = obj.getScore(ChatColor.GRAY + " ------------------- ");
+		Score ip = obj.getScore(ChatColor.RED + "Glares.Minehut.GG");
+		ip.setScore(1);
+		dash2.setScore(2);
+		dash1.setScore(5);
+		name.setScore(6);
+		p.setScoreboard(board);
+	}
+	@EventHandler
+	public void onShopClick(InventoryClickEvent e) {
+		Player player = (Player) e.getWhoClicked();
+		if(e.getView().getTitle().contains("Upgrades")) {
+			if (e.getCurrentItem() != null) {
+				e.setCancelled(true);
+				Material clicked = e.getCurrentItem().getType();
+				UUID id = player.getUniqueId();
+				File file = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "PlayerData" + File.separator  + id); 
+				FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(file);
+				Integer balint = (Integer) DBconfig.get("Money");
+				if (clicked == Material.LEATHER_HELMET) {
+					if (balint > 299) {
+						player.getInventory().addItem(new ItemStack(Material.LEATHER_HELMET));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $300 For That!");
+					}
+				}
+				if (clicked == Material.CHAINMAIL_HELMET) {
+					if (balint > 1499) {
+						player.getInventory().addItem(new ItemStack(Material.CHAINMAIL_HELMET));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $1500 For That!");
+					}
+				}
+				if (clicked == Material.GOLDEN_HELMET) {
+					if (balint > 9999) {
+						player.getInventory().addItem(new ItemStack(Material.GOLDEN_HELMET));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $10000 For That!");
+					}
+				}
+				if (clicked == Material.IRON_HELMET) {
+					if (balint > 24999) {
+						player.getInventory().addItem(new ItemStack(Material.IRON_HELMET));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $25000 For That!");
+					}
+				}
+				if (clicked == Material.DIAMOND_HELMET) {
+					if (balint > 49999) {
+						player.getInventory().addItem(new ItemStack(Material.DIAMOND_HELMET));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $50000 For That!");
+					}
+				}
+				if (clicked == Material.NETHERITE_HELMET) {
+					if (balint > 99999) {
+						player.getInventory().addItem(new ItemStack(Material.NETHERITE_HELMET));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $100000 For That!");
+					}
+				}
+				if (clicked == Material.LEATHER_CHESTPLATE) {
+					if (balint > 299) {
+						player.getInventory().addItem(new ItemStack(Material.LEATHER_CHESTPLATE));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $300 For That!");
+					}
+				}
+				if (clicked == Material.CHAINMAIL_CHESTPLATE) {
+					if (balint > 1499) {
+						player.getInventory().addItem(new ItemStack(Material.CHAINMAIL_CHESTPLATE));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $1500 For That!");
+					}
+				}
+				if (clicked == Material.GOLDEN_CHESTPLATE) {
+					if (balint > 9999) {
+						player.getInventory().addItem(new ItemStack(Material.GOLDEN_CHESTPLATE));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $10000 For That!");
+					}
+				}
+				if (clicked == Material.IRON_CHESTPLATE) {
+					if (balint > 24999) {
+						player.getInventory().addItem(new ItemStack(Material.IRON_CHESTPLATE));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $25000 For That!");
+					}
+				}
+				if (clicked == Material.DIAMOND_CHESTPLATE) {
+					if (balint > 49999) {
+						player.getInventory().addItem(new ItemStack(Material.DIAMOND_CHESTPLATE));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $50000 For That!");
+					}
+				}
+				if (clicked == Material.NETHERITE_CHESTPLATE) {
+					if (balint > 99999) {
+						player.getInventory().addItem(new ItemStack(Material.NETHERITE_CHESTPLATE));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $100000 For That!");
+					}
+				}
+				if (clicked == Material.LEATHER_LEGGINGS) {
+					if (balint > 299) {
+						player.getInventory().addItem(new ItemStack(Material.LEATHER_LEGGINGS));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $300 For That!");
+					}
+				}
+				if (clicked == Material.CHAINMAIL_LEGGINGS) {
+					if (balint > 1499) {
+						player.getInventory().addItem(new ItemStack(Material.CHAINMAIL_LEGGINGS));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $1500 For That!");
+					}
+				}
+				if (clicked == Material.GOLDEN_LEGGINGS) {
+					if (balint > 9999) {
+						player.getInventory().addItem(new ItemStack(Material.GOLDEN_LEGGINGS));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $10000 For That!");
+					}
+				}
+				if (clicked == Material.IRON_LEGGINGS) {
+					if (balint > 24999) {
+						player.getInventory().addItem(new ItemStack(Material.IRON_LEGGINGS));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $25000 For That!");
+					}
+				}
+				if (clicked == Material.DIAMOND_LEGGINGS) {
+					if (balint > 49999) {
+						player.getInventory().addItem(new ItemStack(Material.DIAMOND_LEGGINGS));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $50000 For That!");
+					}
+				}
+				if (clicked == Material.NETHERITE_LEGGINGS) {
+					if (balint > 99999) {
+						player.getInventory().addItem(new ItemStack(Material.NETHERITE_LEGGINGS));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $100000 For That!");
+					}
+			}
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onClick(InventoryClickEvent e) {
+		Player player = (Player) e.getWhoClicked();
+		if(e.getView().getTitle().contains("Upgrades")) {
+			if (e.getCurrentItem() != null) {
+				e.setCancelled(true);
+				Material clicked = e.getCurrentItem().getType();
+				if (clicked == Material.BEACON) {
+					UUID id = player.getUniqueId();
+					
+					File file = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "PlayerData" + File.separator  + id); 
+					FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(file);
+					Integer lvlint = (Integer) DBconfig.get("BeaconLevel");
+					Integer balint = (Integer) DBconfig.get("Money");
+					
+					Integer needed = (Integer) lvlint * 60;
+					
+					if (balint > needed) {
+						DBconfig.set("BeaconLevel", lvlint + 1);
+						DBconfig.set("Money", balint - needed);
+			 			try {
+							DBconfig.save(file);
+						} catch (IOException ee) {
+							ee.printStackTrace();
+						}
+			 			player.closeInventory();
+						upgradeGUI(player);
+					}
+				}
+				if (clicked == Material.STONE) {
+					UUID id = player.getUniqueId();
+					
+					File file = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "PlayerData" + File.separator  + id); 
+					FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(file);
+					Integer balint = (Integer) DBconfig.get("Money");
+					
+					if (balint > 31) {
+						player.getInventory().addItem(new ItemStack(Material.STONE, 16));
+						DBconfig.set("Money", balint - 32);
+			 			try {
+							DBconfig.save(file);
+						} catch (IOException ee) {
+							ee.printStackTrace();
+						}
+					}
+				}
+				if (clicked == Material.STONE_PICKAXE) {
+					if (!player.getInventory().contains(new ItemStack(Material.STONE_PICKAXE))) {
+						UUID id = player.getUniqueId();
+						
+						File file = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "PlayerData" + File.separator  + id); 
+						FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(file);
+						Integer balint = (Integer) DBconfig.get("Money");
+						
+						if (balint > 249) {
+							player.getInventory().addItem(new ItemStack(Material.STONE_PICKAXE));
+							DBconfig.set("Money", balint - 250);
+				 			try {
+								DBconfig.save(file);
+							} catch (IOException ee) {
+								ee.printStackTrace();
+							}
+						}
+					}
+				}
+				UUID id = player.getUniqueId();
+				
+				File file = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "PlayerData" + File.separator  + id); 
+				FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(file);
+				Integer balint = (Integer) DBconfig.get("Money");
+				if (clicked == Material.LEATHER_BOOTS) {
+					if (balint > 299) {
+						player.getInventory().addItem(new ItemStack(Material.LEATHER_BOOTS));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $300 For That!");
+					}
+				}
+				if (clicked == Material.CHAINMAIL_BOOTS) {
+					if (balint > 1499) {
+						player.getInventory().addItem(new ItemStack(Material.CHAINMAIL_BOOTS));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $1500 For That!");
+					}
+				}
+				if (clicked == Material.GOLDEN_BOOTS) {
+					if (balint > 9999) {
+						player.getInventory().addItem(new ItemStack(Material.GOLDEN_BOOTS));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $10000 For That!");
+					}
+				}
+				if (clicked == Material.IRON_BOOTS) {
+					if (balint > 24999) {
+						player.getInventory().addItem(new ItemStack(Material.IRON_BOOTS));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $25000 For That!");
+					}
+				}
+				if (clicked == Material.DIAMOND_BOOTS) {
+					if (balint > 49999) {
+						player.getInventory().addItem(new ItemStack(Material.DIAMOND_BOOTS));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $50000 For That!");
+					}
+				}
+				if (clicked == Material.NETHERITE_BOOTS) {
+					if (balint > 99999) {
+						player.getInventory().addItem(new ItemStack(Material.NETHERITE_BOOTS));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $100000 For That!");
+					}
+				}
+				
+				if (clicked == Material.WOODEN_SWORD) {
+					if (balint > 299) {
+						player.getInventory().addItem(new ItemStack(Material.WOODEN_SWORD));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $300 For That!");
+					}
+				}
+				if (clicked == Material.STONE_SWORD) {
+					if (balint > 1499) {
+						player.getInventory().addItem(new ItemStack(Material.STONE_SWORD));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $1500 For That!");
+					}
+				}
+				if (clicked == Material.GOLDEN_SWORD) {
+					if (balint > 9999) {
+						player.getInventory().addItem(new ItemStack(Material.GOLDEN_SWORD));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $10000 For That!");
+					}
+				}
+				if (clicked == Material.IRON_SWORD) {
+					if (balint > 24999) {
+						player.getInventory().addItem(new ItemStack(Material.IRON_SWORD));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $25000 For That!");
+					}
+				}
+				if (clicked == Material.DIAMOND_SWORD) {
+					if (balint > 49999) {
+						player.getInventory().addItem(new ItemStack(Material.DIAMOND_SWORD));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $50000 For That!");
+					}
+				}
+				if (clicked == Material.NETHERITE_SWORD) {
+					if (balint > 99999) {
+						player.getInventory().addItem(new ItemStack(Material.NETHERITE_SWORD));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $100000 For That!");
+					}
+				}
+				if (clicked == Material.BOW) {
+					if (balint > 9999) {
+						player.getInventory().addItem(new ItemStack(Material.BOW));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $10000 For That!");
+					}
+				}
+				if (clicked == Material.CROSSBOW) {
+					if (balint > 9999) {
+						player.getInventory().addItem(new ItemStack(Material.CROSSBOW));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $10000 For That!");
+					}
+				}
+				if (clicked == Material.ELYTRA) {
+					if (balint > 249999) {
+						player.getInventory().addItem(new ItemStack(Material.ELYTRA));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $250000 For That!");
+					}
+				}
+				if (clicked == Material.FISHING_ROD) {
+					if (balint > 9999) {
+						player.getInventory().addItem(new ItemStack(Material.FISHING_ROD));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $10000 For That!");
+					}
+				}
+				if (clicked == Material.FLINT_AND_STEEL) {
+					if (balint > 9999) {
+						player.getInventory().addItem(new ItemStack(Material.FLINT_AND_STEEL));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $10000 For That!");
+					}
+				}
+				if (clicked == Material.TNT) {
+					if (balint > 2499) {
+						player.getInventory().addItem(new ItemStack(Material.TNT));
+					} else {
+						player.closeInventory();
+						player.sendMessage("You Need $2500 For That!");
+					}
+				}
+
+			}
+		}		
+	}
+	public void upgradeGUI(Player player) {
+		UUID id = player.getUniqueId();
+		
+		File file = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "PlayerData" + File.separator  + id); 
+		FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(file);
+		Integer lvlint = (Integer) DBconfig.get("BeaconLevel");
+		
+		Inventory gui = Bukkit.createInventory(null, 54, "Upgrades");
+		
+		ItemStack upgrade = new ItemStack(Material.BEACON);
+		ItemMeta upgrademeta = upgrade.getItemMeta();
+		upgrademeta.setDisplayName("Upgrade! Required Cash: " + lvlint * 60);
+		upgrade.setItemMeta(upgrademeta);
+		
+		ItemStack stone = new ItemStack(Material.STONE);
+		ItemMeta stonemeta = stone.getItemMeta();
+		stonemeta.setDisplayName(ChatColor.GRAY + "Just Stone? $20 - 32");
+		stone.setItemMeta(stonemeta);
+		
+		ItemStack pick = new ItemStack(Material.STONE_PICKAXE);
+		ItemMeta pickmeta = pick.getItemMeta();
+		pickmeta.setDisplayName(ChatColor.GRAY + "Trusty Pickaxe! $250");
+		pick.setItemMeta(pickmeta);
+		
+		ItemStack fill = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+		ItemMeta fillmeta = fill.getItemMeta();
+		fillmeta.setDisplayName(" ");
+		fill.setItemMeta(fillmeta);
+		
+		File shop = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "RotateShop"); 
+		FileConfiguration shopconfig = YamlConfiguration.loadConfiguration(shop);
+		
+
+		String helmf =  (String) shopconfig.get("Helmet");
+		String chestf = (String) shopconfig.get("Chestplate");
+		String leggf = (String) shopconfig.get("Leggings");
+		String bootf = (String) shopconfig.get("Boots");
+		String swordf = (String) shopconfig.get("Sword");
+		String bowf = (String) shopconfig.get("Bow");
+		String specialf = (String) shopconfig.get("Special");
+		
+		ItemStack helm = new ItemStack(Material.getMaterial(helmf));
+		ItemStack chest = new ItemStack(Material.getMaterial(chestf));
+		ItemStack legg = new ItemStack(Material.getMaterial(leggf));
+		ItemStack boot = new ItemStack(Material.getMaterial(bootf));
+		ItemStack sword = new ItemStack(Material.getMaterial(swordf));
+		ItemStack bow = new ItemStack(Material.getMaterial(bowf));
+		ItemStack special = new ItemStack(Material.getMaterial(specialf));
+
+		
+		gui.setItem(10, stone);
+		gui.setItem(11, pick);
+		gui.setItem(22, upgrade);
+		gui.setItem(37, helm);
+		gui.setItem(38, chest);
+		gui.setItem(39, legg);
+		gui.setItem(40, boot);
+		gui.setItem(41, sword);
+		gui.setItem(42, bow);
+		gui.setItem(43, special);
+		
+		player.openInventory(gui);
+	}
+	
+	@EventHandler
+	public void onClick(PlayerInteractEvent e) {
+		Action a = e.getAction();
+		if (a.equals(Action.RIGHT_CLICK_BLOCK)) {
+			if (e.getClickedBlock().getType().equals(Material.BEACON)) {
+				e.setCancelled(true);
+				upgradeGUI(e.getPlayer());
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onJoin(PlayerJoinEvent p) {
+		buildScoreBoard(p.getPlayer());
+		
+		
+		Player player = p.getPlayer();
+		createPlayerFile(player);
+		
+		p.getPlayer().getInventory().remove(new ItemStack(Material.BEACON));
+		p.getPlayer().getInventory().addItem(new ItemStack(Material.BEACON));
+	}
+	
+	@EventHandler
+	public void onPlace(BlockPlaceEvent p) {
+		String playername = ChatColor.stripColor(p.getPlayer().getName());
+		Material material = p.getBlock().getType();
+		Block block = p.getBlock();
+		if (material.equals(Material.STONE)) {
+			mapreset.add(block);
+		}
+		if (material.equals(Material.BEACON)) {
+			Location loc = block.getLocation();
+			Integer x = loc.getBlockX();
+			Integer y = loc.getBlockY();
+			Integer z = loc.getBlockZ();
+			
+			beacon.add(p.getPlayer());
+			mapreset.add(block);
+			File file = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "ActiveBeacons");
+			FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(file);
+			Integer bcncount = (Integer) DBconfig.getInt("BeaconCount");
+			Integer newbcncount = bcncount + 1;
+			DBconfig.set("BeaconCount", newbcncount);
+			DBconfig.set(x + "-" + y + "-" + z, playername);
+ 			try {
+				DBconfig.save(file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}	
+	@EventHandler
+	public void onBreak(BlockBreakEvent p) {
+		Material material = p.getBlock().getType();
+		if (material.equals(Material.BEACON)) {
+			File file = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "ActiveBeacons");
+			FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(file);
+			Integer bcncount = (Integer) DBconfig.getInt("BeaconCount");
+			Integer newbcncount = bcncount - 1;
+			DBconfig.set("BeaconCount", newbcncount);
+			Integer x = p.getBlock().getLocation().getBlockX();
+			Integer y = p.getBlock().getLocation().getBlockY();
+			Integer z = p.getBlock().getLocation().getBlockZ();
+			String foe = (String) DBconfig.get(x + "-" + y + "-" + z);
+			DBconfig.set(x + "-" + y + "-" + z, null);
+			
+			UUID id = p.getPlayer().getUniqueId();
+			File pfile = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "PlayerData" + File.separator  + id); 
+			FileConfiguration pDBconfig = YamlConfiguration.loadConfiguration(pfile);
+			Integer gbal = (Integer) pDBconfig.get("Money");
+			
+			UUID id2 = Bukkit.getPlayer(foe).getUniqueId();
+			File ppfile = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "PlayerData" + File.separator  + id2); 
+			FileConfiguration ppDBconfig = YamlConfiguration.loadConfiguration(ppfile);
+			Integer lbal = (Integer) ppDBconfig.get("Money");
+			
+			pDBconfig.set("Money", gbal + lbal);
+			ppDBconfig.set("Money", 0);
+			
+			
+			
+			Bukkit.getPlayer(foe).sendMessage(ChatColor.RED + "-");
+			p.getPlayer().sendMessage(ChatColor.GREEN + "+");
+			
+			beacon.remove(Bukkit.getPlayer(foe));
+			
+			Bukkit.broadcastMessage(ChatColor.GREEN + p.getPlayer().getName() + ChatColor.GRAY + " Has Broken " + ChatColor.RED + foe + ChatColor.GRAY + "'s Beacon!");
+			
+			Bukkit.getPlayer(foe).getInventory().addItem(new ItemStack(Material.BEACON));
+			
+			try {
+				DBconfig.save(file);
+				pDBconfig.save(pfile);
+				ppDBconfig.save(ppfile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void createPlayerFile(Player p) {
+		UUID uuid = p.getUniqueId();
+        File DBdir = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "PlayerData");
+        if(!DBdir.exists()){
+            DBdir.mkdir();
+        }
+        File DBfile = new File(Bukkit.getServer().getPluginManager().getPlugin("BeaconsCore").getDataFolder(), "PlayerData" + File.separator  + uuid);
+        if(!DBfile.exists()){
+            try{
+                DBfile.createNewFile();
+                FileConfiguration DBconfig = YamlConfiguration.loadConfiguration(DBfile);
+                DBconfig.set("Language", "YAML");
+                DBconfig.set("BeaconExists", false);
+                DBconfig.set("BeaconLevel", 1);
+                DBconfig.set("Money", 0);
+                DBconfig.save(DBfile);
+            }catch(Exception e){
+            }
+        }
+    }
+}
